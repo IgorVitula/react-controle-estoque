@@ -9,6 +9,7 @@ export default function Routes(){
             <Switch>
                 <Route path="/" exact component={Menu}/>
                 <Route path="/cad" exact component={Cadastrar}/>
+                <Route path="/cad/:id" exact component={Cadastrar}/>
             </Switch>
         </BrowserRouter>
     )

@@ -1,11 +1,11 @@
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import { Form, Row, Col, Button, Jumbotron, Modal} from 'react-bootstrap';
 import api from '../../services/api';
 import Header from '../../components/header';
 import {Redirect} from 'react-router-dom';
 
 
-function Cadastrar(){
+function Cadastrar({match}){
         const [type, setType]= useState('');
         const [nome, setNome] = useState('');
         const [descripition, setDescripition] = useState('')
@@ -20,6 +20,18 @@ function Cadastrar(){
             {id: 3, name: 'Medio'},
             {id: 4, name: 'Grande'},
           ];
+
+          async function LoadProduto(){
+            await api.get(`/${match.params.id}`)
+            .then(response => {
+              setType(response.data.type)
+              setNome(response.data.nome)
+              setDescripition(response.data.descripition)
+              setQuantidade(response.data.quantidade)
+              setBarras(response.data.barras)
+            })  
+
+        }
 
         function handleContinuar(){
             setShowModal(false);
@@ -37,24 +49,37 @@ function Cadastrar(){
           else if(!barras)
             return alert("Você precisa definir o codigo de barras")
 
-        try{
-         await api.post('/cad',{
-                barras,
-                type,
-                nome,
-                descripition,
-                quantidade
-            }).then(() => 
-            setShowModal(true),
-            setRedirect(true)
-          )
-            
-             
-        }catch(err){
-            alert('Erro' + err)
-        } 
+        if(match.params.id){
+            await api.put(`/atualizar/${match.params.id}`, {
+                    barras,
+                    type,
+                    nome,
+                    descripition,
+                    quantidade
+                }).then(() => 
+                    setShowModal(true),
+                    setRedirect(true)     
+                )
+          
+              }else{
+                await api.post('/cad',{
+                    barras,
+                    type,
+                    nome,
+                    descripition,
+                    quantidade
+                }).then(() => 
+                    setShowModal(true),
+                    setRedirect(true)
+                )
+              }
           
         }
+        useEffect(() => {
+            console.log(match.params.id);
+      
+          LoadProduto();
+        }, [])
 
     return (
     <>  

@@ -24,11 +24,8 @@ useEffect(() => {
         <Header/>
      {
          produtos.map(p =>(
-         
-         <ListarProdutos barras={p.barras} type={p.type} nome={p.nome} descripition={p.descripition} quantidade={p.quantidade} />
-         
+         <ListarProdutos id={p._id} barras={p.barras} type={p.type} nome={p.nome} descripition={p.descripition} quantidade={p.quantidade} />
          ))
-        
      }
     </>
     

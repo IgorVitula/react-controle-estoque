@@ -1,9 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import Card from 'react-bootstrap/Card';
 import { Button } from 'react-bootstrap';
+import CadastroProdutos from '../../views/cadastro/cadastrar-produtos';
 
 
-function ListarProdutos({ barras, type, nome, descripition, quantidade }){  
+
+function ListarProdutos({ id, barras, type, nome, descripition, quantidade }){  
+     const [codBarra, setCodBarra] = useState();
 
   return(
       <Card 
@@ -22,7 +25,7 @@ function ListarProdutos({ barras, type, nome, descripition, quantidade }){
                 Quantidade: {quantidade}
                 </Card.Text>
             </Card.Body>
-            <Button variant="success">Editar</Button>
+            <Button variant="success" href={`/cad/${id}`}>Editar</Button>
       </Card>
   )
  
